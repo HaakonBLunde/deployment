@@ -3,7 +3,6 @@ bin
 cmake-build-*
 obj
 venv
-*.db
 *.pyc
 *.swp
 
