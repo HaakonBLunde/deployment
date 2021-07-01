@@ -1,0 +1,182 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model editIndexModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<style>
+    .textArea{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+    .img{
+        border: 1px;
+        border-radius: 5px;
+        width: 200px;
+        padding: 5px;
+        }
+</style>
+<h2>Oppdater forsida</h2>
+<div style="width: 100%; height: 500px">
+    <div style="float: left; width: 50%">
+        <button id="coolBtn" class="btn btn-primary" onclick="showLinkMenu()">Legg til Link</button>
+        <button id="coolBtn2" class="btn btn-primary" onclick="showImageMenu()">Legg til Bilde</button>
+        <div class="form-group" id="linkHolder">
+
+        </div>
+        <form class="textArea" style="width: 100%; height: 75%" asp-action="UpdateIndex">
+            <input type="text" asp-for="IndexInfo.Id" value="Index" hidden>
+            <textarea class="form-control textArea" id="textArea" asp-for="IndexInfo.Html">@ViewBag.Html</textarea>
+            <button type="submit" class="btn btn-success">Oppdater</button>
+        </form>
+    </div>
+    <div style="float: right; width: 50%" id="preview">
+    </div>
+</div>
+<br>
+<br>
+<div id="imageHolder">
+    <div class="row">
+    @if (Model.Images.Count > 0)
+    {
+        var i = 0;
+        foreach (var filePath in Model.Images)
+        {
+            if (i % 3 == 0)
+            {
+                <div class="w-100"></div>
+            } 
+            <img class="img-thumbnail" style="height: 150px; width: 150px" src="@filePath" onclick="AddImageFromImage(this)" alt="">
+            i++;
+        }
+
+    }
+    </div>
+</div>
+<script language="JavaScript" type="text/javascript" src="/lib/jquery/dist/jquery.js"></script>
+<script>
+let imageHolder = document.getElementById("imageHolder");
+let images = imageHolder.querySelectorAll("img");
+for (let i =0; i <images.length; i++)
+{
+    images[i].style.visibility = "hidden";
+}
+
+
+function addLink(link, text)
+{
+    
+    let linkElement = document.createElement("a");
+    linkElement.href = document.getElementById(link).value;
+    linkElement.innerText = document.getElementById(text).value;
+    let linkString = linkElement.outerHTML;
+    document.getElementById("textArea").value += linkString;
+    let linkHolder = document.getElementById("linkHolder");
+    linkHolder.removeChild(linkHolder.lastChild);
+    document.getElementById("coolBtn").disabled = false;
+    document.getElementById("coolBtn2").disabled = false;
+}
+function showLinkMenu()
+{
+    let linkBox = document.createElement("input");
+    linkBox.setAttribute("type", "text");
+    linkBox.setAttribute("id", "linkBox")
+    linkBox.setAttribute("class", "form-control-sm");
+    linkBox.setAttribute("placeholder", "link");
+    
+     let textBox = document.createElement("input");
+     textBox.setAttribute("type", "text");
+     textBox.setAttribute("id", "textBox");
+     textBox.setAttribute("class", "form-control-sm");
+     textBox.setAttribute("placeholder", "Tekst for linken");
+     
+     let addLinkBtn = document.createElement("button");
+     addLinkBtn.setAttribute("class", "btn btn-primary");
+     addLinkBtn.setAttribute("id", "linkAdded");
+     addLinkBtn.innerText = "Sett inn link";
+     let divToHold = document.createElement("div");
+     divToHold.className = "form-group";
+     divToHold.appendChild(linkBox);
+     divToHold.appendChild(textBox);
+     divToHold.appendChild(addLinkBtn);
+     document.getElementById("linkHolder").appendChild(divToHold);
+     document.getElementById("linkAdded").setAttribute("onclick", "addLink('linkBox', 'textBox')")
+     document.getElementById("coolBtn").disabled = true;
+     document.getElementById("coolBtn2").disabled = true;
+     //addLinkBtn.onclick = addLink(linkBox.value, textBox.value);
+}
+function showImageMenu()
+{
+    
+    let linkBox = document.createElement("input");
+    linkBox.setAttribute("type", "text");
+    linkBox.setAttribute("id", "iLinkBox")
+    linkBox.setAttribute("class", "form-control-sm");
+    linkBox.setAttribute("placeholder", "link til eksternt bilde");
+    
+     let textBox = document.createElement("input");
+     textBox.setAttribute("type", "text");
+     textBox.setAttribute("id", "iTextBox");
+     textBox.setAttribute("class", "form-control-sm");
+     textBox.setAttribute("placeholder", "alternativ tekst");
+     
+     let addILinkBtn = document.createElement("button");
+     addILinkBtn.setAttribute("class", "btn btn-primary");
+     addILinkBtn.setAttribute("id", "imageAdded");
+     addILinkBtn.innerText = "Sett inn link";
+     let divToHold = document.createElement("div");
+     divToHold.className = "form-group";
+     divToHold.appendChild(linkBox);
+     divToHold.appendChild(textBox);
+     divToHold.appendChild(addILinkBtn);
+     document.getElementById("linkHolder").appendChild(divToHold);
+     document.getElementById("imageAdded").setAttribute("onclick", "addImage('iLinkBox', 'iTextBox')")
+     document.getElementById("coolBtn2").disabled = true;
+     document.getElementById("coolBtn").disabled = true;
+     for (let i =0; i <images.length; i++)
+          {
+              images[i].style.visibility = "visible";
+              
+          }
+     //addLinkBtn.onclick = addLink(linkBox.value, textBox.value);
+}
+function addImage(link, text)
+{
+    
+    let imageElement = document.createElement("img");
+    imageElement.src = document.getElementById(link).value;
+    imageElement.alt = document.getElementById(text).value;
+    let linkString = imageElement.outerHTML;
+    document.getElementById("textArea").value += linkString;
+    let linkHolder = document.getElementById("linkHolder");
+    linkHolder.removeChild(linkHolder.lastChild);
+    document.getElementById("coolBtn2").disabled = false;
+    document.getElementById("coolBtn").disabled = false;
+    for (let i =0; i <images.length; i++)
+        {
+            images[i].style.visibility = "hidden";
+        }
+}
+function AddImageFromImage(e)
+{
+    let imageElement = document.createElement("img");
+    imageElement.src = e.src;
+    imageElement.style.width = "200px"
+    let linkString = imageElement.outerHTML;
+    document.getElementById("textArea").value += linkString;
+    let linkHolder = document.getElementById("linkHolder");
+    linkHolder.removeChild(linkHolder.lastChild);
+    document.getElementById("coolBtn2").disabled = false;
+    document.getElementById("coolBtn").disabled = false;
+    for (let i =0; i <images.length; i++)
+    {
+        images[i].style.visibility = "hidden";
+    }
+}
+$('#textArea').on('keypress',function (){
+    console.log("key pressed")
+    $('#preview').html($('#textArea').val());
+})
+</script>

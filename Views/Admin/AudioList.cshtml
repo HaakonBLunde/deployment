@@ -1,0 +1,27 @@
+﻿@model GameModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<tbody>
+@foreach (var q in Model.QuestionsCollection)
+{
+    <tr>
+        <td>
+            <p>@q.Question</p>
+        </td>
+        <td>
+            <a asp-action="UploadAudio" asp-route-id="@q.Id">Legg lyd til dette spørsmålet</a>
+        </td>
+        <td>
+            @if (q.AudioURL == null)
+            {
+                <a class="btn btn-danger">Har ikke lyd</a>
+            }else{
+                <a class="btn btn-success">Har lyd</a>
+            }
+        </td>
+    </tr>
+}
+</tbody>

@@ -1,0 +1,11 @@
+﻿@model GameModel
+
+<div class="container border border-danger rounded">
+    <header>Er du helt sikker på at du vil slette denne modulen? Dette kan IKKE gjøres om</header>
+    <p>@Model.Id</p>
+    <br>
+    <p>@Model.Description</p>
+
+    <a class="btn btn-danger" asp-action="PostDeleteGame" asp-controller="Admin" asp-route-id="@Model.Id" asp-route-version="@Model.Version">Bekreft Sletting</a>
+    <a class="btn btn-primary" asp-action="CancelDelete" asp-controller="Admin">Avbryt sletting</a>
+</div>

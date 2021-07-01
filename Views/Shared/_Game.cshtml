@@ -1,0 +1,382 @@
+﻿
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+
+<style>
+	.column {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 100%;
+      flex: 1;
+    }
+    
+    .blue-column {
+      height: 100px;
+    }
+    
+    .green-column {
+        height: 100px;
+        background-color: green;
+    }
+    
+    .image2 {
+      width: 100%;
+      position: absolute;
+    }
+    
+    .image1 {
+      position: absolute;
+      z-index: 3;
+         width: 46%;
+        left: 15%;
+    }
+    
+    
+    /*************/
+    
+    
+    
+    html {
+      box-sizing: border-box;
+    }
+    
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      background: #005b96;
+    }
+    
+    .g {
+      padding: 15px;
+      color: white;
+      font: 18px Arial;
+    }
+    
+    .grid-33 {
+      width: calc(33.3333% - 15px);
+    }
+    
+    
+    
+    .grid-66 {
+      width: calc(66.6666% - 15px);
+      position: relative;
+        height: calc(100vw * 0.37);
+        background: url("/lib/assets/images/Hans_rom.png");
+        -moz-background-size: 100% 40%;
+        -webkit-background-size: 100% 40%;
+        background-size: 100% 40%;
+        background-size: cover;
+    }
+    
+    
+    .g.grid-66 {
+     position: relative;
+     height: calc(100vw * 0.37);
+    }
+    
+    .buttons-container button {
+        display: inline-block;
+        padding: 8px 12px;
+        border: none;
+        margin: 10px 0 0px 0;
+        border-radius: 5px;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        color: #363d58;
+        text-align: left;
+        transition: all 0.2s;
+        background: #f3f9ff;
+        font-size: 16px;
+        border: 2px #f3f9ff solid;
+    }
+    
+    .buttons-container button:hover {
+      background: #94e0ff;
+      border: 2px #363d58 solid;
+    }
+    
+    /* End grid */
+    
+    h3 {
+        text-align: center;
+        font-size: 27px;
+    }
+    
+    
+    @@media only screen and (min-width: 900px) {
+    
+      .question {
+        font-family: "VT323", Helvetica;
+        border: 5px #363d58 solid;
+        position: absolute;
+        bottom: 20px;
+        z-index: 4;
+        padding: 5px 30px;
+        color: #363d58;
+        background-color: #94e0ff;
+        border-radius: 25px;
+        line-height: 85%;
+        width: 70%;
+        left: 15%;
+    }
+    
+    }
+    
+    @@media only screen and (max-width: 900px) {
+    
+     .grid-66, .grid-33 {
+      width: 100%;
+     }
+    
+    .g.grid-66 {
+     height: calc(100vw * 0.9);/*height: calc(100vw * 0.546)!important; */
+         background: url("/lib/assets/images/Hans_rom_mobile.jpg");
+        background-size: cover;
+    }
+    
+    .image1 {
+        width: 73%;
+        left: 12%;
+    }
+    
+    .question {
+        border: 5px #363d58 solid;
+        position: absolute;
+        bottom: 8px;
+        z-index: 4;
+        padding: 15px 12px;
+        color: #363d58;
+        background-color: #94e0ff;
+        border-radius: 25px;
+        left: 2%;
+        right: 2%;
+        font-size: 16px;
+        font-family: "VT323", Helvetica;
+    }
+    
+    .buttons-container br {
+      display: none;
+    }
+    
+    .buttons-container button {
+      display: block;
+        margin: auto;
+        min-width: 95%;
+        text-align: center;
+        max-width: 95%;
+        margin-top: 8px;
+    }
+    
+    h3 {
+      line-height: 8px;
+    }
+    
+    }
+	
+	
+	 
+      
+     .progress-bar {
+             width: 33%;
+             height: 2%;
+             background-color: black;
+             position: absolute;
+             margin: auto;
+             top: auto;
+             left: auto;
+             margin: auto;
+             z-index: -1;
+     
+         }
+     
+         .progress {
+             width: 33%;
+             height: 2%;
+             background-color: green;
+             position: absolute;
+             top: auto;
+             left: auto;
+             margin: auto;
+             z-index:7;
+     
+         }
+     
+         .divElement {
+             left: 33%;
+         }
+     
+             
+           .rowchars {
+            
+             display: flex;
+             
+           }
+          
+           
+           .columnChars {
+             flex : 25%;
+             padding: 5px;
+             z-index: 3;
+           }
+           
+         
+             
+             
+         
+</style>
+
+	
+<p id="sumpoints"></p>
+
+
+
+
+	
+<div class="container">
+
+  <div class="g grid-66" id="grid-66">
+
+      <div class='blue-column'>
+
+	      <div style="position: relative;">
+		      <!--<img class="image2" src="Hans_rom.png">-->
+
+		      <img class="image1" id="img1" src="/lib/assets/images/ToreHansen.gif">
+		      <div class="rowchars" id="rowOfChars"> </div>
+
+	      </div>
+
+	      <div class="question" id="question">
+          @Model.Question
+      </div>
+
+    </div>
+
+  </div>
+  <div class="g grid-33">
+    <div class="column right">
+    <h2 id="questionText" hidden="hidden"></h2>
+    <h3>Velg svaralternativ</h3>
+  <div class="buttons-container">
+    <button id="button1" onclick="{$.post('Home/GetQuestion',{@Model.Next1 },function (data){$('#content').html(data)})}">@Model.Answer1</button>
+    <br>
+    <button id="button2"onclick="alert('xd')">@Model.Answer2</button>
+    <br>
+    <button id="button3">@Model.Answer3</button>
+    <br>
+    <button id="button4">@Model.Answer4</button>
+    <br>
+  </div>
+    </div>
+  </div>
+</div>
+
+<input id="cheeky1" type="hidden" value="@Model.Next1">
+<input id="cheeky2" type="hidden" value="@Model.Next2">
+<input id="cheeky3" type="hidden" value="@Model.Next3">
+<input id="cheeky4" type="hidden" value="@Model.Next4">
+
+<div>
+	<div id="progress-bar " class="progress-bar divElement"> </div>
+	<div id="progress" class="progress divElement"> </div>
+</div>
+
+
+
+
+<script>
+    //dummy value
+    let totalPoints = 500;
+    
+    let sumPoints = 0;
+   
+    function populateButtons(){
+    	document.getElementById("button1").removeAttribute("hidden");
+    	document.getElementById("button2").removeAttribute("hidden");
+		document.getElementById("button3").removeAttribute("hidden");
+		document.getElementById("button4").removeAttribute("hidden");
+		
+		document.getElementById("button1").innerText = @Model.Answer1;
+		document.getElementById("button1").setAttribute("onclick", "refresh(" + @Model.Next1 + "," + @Model.Points1 + ")");
+    	document.getElementById("button2").innerText = @Model.Answer2;
+    	document.getElementById("button2").setAttribute("onclick", "refresh(" + @Model.Next2 + "," + @Model.Points2 +")");
+    	document.getElementById("button3").innerText = @Model.Answer3;
+    	document.getElementById("button3").setAttribute("onclick", "refresh(" + @Model.Next3 + "," + @Model.Points3 +")");
+    	document.getElementById("button4").innerText = @Model.Answer1;
+    	document.getElementById("button4").setAttribute("onclick", "refresh(" + @Model.Next4 + "," +  @Model.Points4 +")");
+    	
+    	if (@Model.Answer2 === ""){
+    		document.getElementById("button2").setAttribute("hidden", "true");
+    		document.getElementById("button3").setAttribute("hidden", "true");
+    		document.getElementById("button4").setAttribute("hidden", "true");
+    		}
+    	if (@Model.Answer3 === ""){
+            		document.getElementById("button3").setAttribute("hidden", "true");
+            		document.getElementById("button4").setAttribute("hidden", "true");
+            		}
+    	if (@Model.Answer4 === ""){
+            		document.getElementById("button4").setAttribute("hidden", "true");
+            		}
+    	document.getElementById("questionText").innerText = @ViewBag.Question;
+    	let questionString = @ViewBag.Question;
+    	
+    	/*
+    		//gjør om ting som starter på "www" til linker automatisk
+    		var replacedText, replacePattern;
+    	   
+    	 	replacePattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+            replacedText = questionString.replace(replacePattern, '$1<a href="http://$2" target="_blank">$2</a>');
+    		document.getElementById("question").innerHTML = replacedText;
+    		
+    		*/
+    		let replacedText, replacePattern1, replacePattern2, replacePattern3;
+            
+                //URLs starting with http://, https://, or ftp://
+                replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@@#\/%?=~_|!:,.;]*[-A-Z0-9+&@@#\/%=~_|])/gim;
+                replacedText = questionString.replace(replacePattern1, '<a href="$1" target="_blank">Link</a>');
+            
+                //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+                replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+                replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">Link</a>');
+            
+                //Change email addresses to mailto:: links.
+                replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+                replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">Link</a>');
+            	
+                
+                
+                
+                document.getElementById("question").innerHTML = replacedText;
+    	}
+    	
+    	
+    	
+    	
+    /*	
+    function setBackground() {
+      document.getElementById("grid-66").style.background. = img.setAttribute("src", "/lib/assets/images/" + char.image);
+    }*/	
+    	
+    	
+    	
+    function refresh(pts){
+    	let question = @Model.Question
+    	sumPoints += parseInt(pts);
+    	document.getElementById("sumpoints").innerText = sumPoints.toString();
+    	
+    	document.getElementById("progress").style.width = (sumPoints/totalPoints)*window.innerWidth/3 + "px";
+    	let qText = @Model.Question;
+    	
+    	populateButtons()
+    	document.getElementById("img1").setAttribute("src", "/lib/assets/images/" + @Model.Image);
+    }
+
+  </script>

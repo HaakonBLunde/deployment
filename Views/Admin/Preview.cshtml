@@ -1,0 +1,901 @@
+﻿@using System.Security.Cryptography
+@model viewModel
+@{
+	ViewData["Title"] = "game";
+	Layout = null;
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+
+<style>
+	.column {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 100%;
+      flex: 1;
+    }
+    
+    .blue-column {
+      height: 100px;
+    }
+    
+    .green-column {
+        height: 100px;
+        background-color: green;
+    }
+    
+    .image2 {
+      width: 100%;
+      position: absolute;
+    }
+    
+    .image1 {
+      position: absolute;
+      z-index: 3;
+         width: 46%;
+        left: 15%;
+    }
+    
+    
+    /*************/
+    
+    
+    
+    html {
+      box-sizing: border-box;
+    }
+    
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      background: #005b96;
+    }
+    
+    .g {
+      padding: 15px;
+      color: white;
+      font: 18px Arial;
+    }
+    
+    .grid-33 {
+      width: calc(33.3333% - 15px);
+    }
+    
+    
+    
+    .grid-66 {
+      width: calc(66.6666% - 15px);
+      position: relative;
+        height: calc(100vw * 0.37);
+        background: url("/lib/assets/images/backgrounds/Hans_rom.png");
+        -moz-background-size: 100% 40%;
+        -webkit-background-size: 100% 40%;
+        background-size: 100% 40%;
+        background-size: cover;
+    }
+        
+    
+    
+    .g.grid-66 {
+     position: relative;
+     height: calc(100vw * 0.37);
+    }
+    
+    .buttons-container button {
+        display: inline-block;
+        padding: 8px 12px;
+        border: none;
+        margin: 10px 0 0px 0;
+        border-radius: 5px;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        color: #363d58;
+        text-align: left;
+        transition: all 0.2s;
+        background: #f3f9ff;
+        font-size: 16px;
+        border: 2px #f3f9ff solid;
+    }
+    
+    .buttons-container button:hover {
+      background: #94e0ff;
+      border: 2px #363d58 solid;
+    }
+    
+    /* End grid */
+    
+    h3 {
+        text-align: center;
+        font-size: 27px;
+    }
+    
+    
+    @@media screen and (min-width: 900px) {
+    
+      .question {
+        font-family: "VT323", Helvetica;
+        border: 5px #363d58 solid;
+        position: absolute;
+        bottom: 20px;
+        z-index: 4;
+        padding: 5px 30px;
+        color: #363d58;
+        background-color: #94e0ff;
+        border-radius: 25px;
+        line-height: 85%;
+        width: 70%;
+        left: 15%;
+    }
+    
+    }
+
+    .buttons-container br {
+          display: none;
+     }
+
+    @@media only screen and (min-width: 900px) {
+        
+          .questionCentered {
+            font-family: "VT323", Helvetica;
+            border: 5px #363d58 solid;
+            position: absolute;
+            bottom: 150px;
+            z-index: 4;
+            padding: 5px 30px;
+            color: #363d58;
+            background-color: #94e0ff;
+            border-radius: 25px;
+            line-height: 85%;
+            width: 70%;
+            left: 15%;
+        }
+        
+
+        }
+    
+    @@media screen and (max-width: 1000px) {
+    
+     .grid-66, .grid-33 {
+      width: 100%;
+     }
+    
+    .g.grid-66 {
+     height: calc(100vw * 0.9);/*height: calc(100vw * 0.546)!important; */
+         background: url("/lib/assets/images/backgroundmobile/Hans_rom.jpg");
+        background-size: cover;
+    }
+    
+    
+    .image1 {
+        width: 73%;
+        left: 12%;
+    }
+    
+    .question {
+        border: 5px #363d58 solid;
+        position: absolute;
+        bottom: 8px;
+        z-index: 4;
+        padding: 15px 12px;
+        color: #363d58;
+        background-color: #94e0ff;
+        border-radius: 25px;
+        left: 2%;
+        right: 2%;
+        font-size: 16px;
+        font-family: "VT323", Helvetica;
+    }
+    body{
+    background: #005b96;
+    }
+    
+    
+    .buttons-container br {
+      display: none;
+    }
+    
+    .buttons-container button {
+      display: block;
+        margin: auto;
+        min-width: 95%;
+        text-align: center;
+        max-width: 95%;
+        margin-top: 8px;
+    }
+    
+    h3 {
+      line-height: 8px;
+    }
+    
+    }
+	
+	
+	 
+      
+     .progress-bar {
+             width: 33%;
+             height: 2%;
+             background-color: black;
+             position: absolute;
+             margin: auto;
+             top: auto;
+             left: auto;
+             margin: auto;
+             z-index: -1;
+     
+         }
+     
+         .progress {
+             width: 33%;
+             height: 2%;
+             background-color: green;
+             position: absolute;
+             top: auto;
+             left: auto;
+             margin: auto;
+             z-index:7;
+     
+         }
+     
+         .divElement {
+             left: 33%;
+         }
+     
+             
+           .rowchars {
+            
+             display: flex;
+             
+           }
+          
+           
+           .columnChars {
+             flex : 25%;
+             padding: 5px;
+             z-index: 3;
+           }
+           
+    .tilbake{
+    font-family: Helvetica;
+    
+    width: 65px;
+    text-decoration: none;
+    border-radius: 4px;
+    color: grey;
+    background: #005b96;
+    }    
+    .tilbake:visited{
+    text-decoration: none;
+    }
+             
+             
+         
+</style>
+
+
+<div>
+	<a class="tilbake" href="../GameList">Tilbake</a>
+	<a asp-action="Game" asp-controller="Home" asp-route-id="@Model.Id" asp-route-version="@Model.Version">Start på nytt</a>
+ 
+</div>
+	
+<p id="sumpoints" hidden="hidden"></p>
+
+
+
+
+
+	
+<div class="container">
+
+  <div class="g grid-66" id="background">
+
+	  <div class='blue-column'>
+		  <!-- svg kom fra bootstrap-->
+		  <button style="float: left; position: relative; z-index: 10 " id="muteBtn" onclick="toggleMute()" class="btn btn-outline-danger">
+			  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-mute" viewBox="0 0 16 16">
+				  <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04 4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04zm7.854.606a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/>
+			  </svg>
+			  
+		  </button>
+		  <div style="position: relative;">
+			  <!--<img class="image2" src="Hans_rom.png">-->
+
+			  <img class="image1" id="img1" src="/lib/assets/images/ToreHansen.gif">
+			  <div class="rowchars" id="rowOfChars"> </div>
+
+		  </div>
+
+		  <div class="question" id="question">
+			  hei dette er en ok passe lang tekst for å teste hvordan sdet ser ut
+		  </div>
+
+	  </div>
+
+  </div>
+  <div class="g grid-33">
+    <div class="column right">
+    <h2 id="questionText" hidden="hidden"></h2>
+    <h3>Velg svaralternativ</h3>
+  <div class="buttons-container">
+    <button id="button1"></button>
+    <br>
+    <button id="button2"></button>
+    <br>
+    <button id="button3"></button>
+    <br>
+    <button id="button4"></button>
+    <br>
+  </div>
+    </div>
+  </div>
+</div>
+<canvas id="canvas" ></canvas>
+
+
+
+
+<audio hidden controls id="audio">
+	<source id="audioSource">
+</audio>
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+	const audio = document.getElementById("audio");
+	const audioSource = document.getElementById("audioSource");
+	
+    
+    let muted = true;
+    //verdier for progressbar
+    document.querySelector("canvas").width = window.innerWidth;
+	document.querySelector("canvas").height = window.innerHeight/20;
+    let c = document.getElementById("canvas");
+    let ctx = c.getContext("2d");
+    let points = 20;
+    const maxPoints = 40;
+    let happyHansen = new Image();
+    happyHansen.src = "/lib/assets/nonGameImages/Hanshansenglad.png"
+    let sinnaHansen = new Image();
+    sinnaHansen.src = "/lib/assets/nonGameImages/hissighansen.png";
+    let neutralHansen = new Image();
+    neutralHansen.src = "/lib/assets/nonGameImages/Hanshansennytral.png";
+    //draw();
+    window.addEventListener("resize", function (){
+    	c.width = window.innerWidth;
+    	c.height = window.innerHeight/20;
+    	
+    	//drawBoxes();
+    	draw();
+    })
+	
+	class question{
+   		answer1;
+   		Question;
+    	answer2;
+    	answer3;
+    	answer4;
+    	nextNr1;
+    	nextNr2;
+    	nextNr3;
+    	nextNr4;
+    	image;
+    	points1;
+    	points2;
+    	points3;
+    	points4;
+    	audioURL;
+    	type;
+    	bgImage
+    	constructor(q, a1, a2, a3, a4, nNr1, nNr2, nNr3, nNr4, image, p1, p2, p3, p4, aurl, tp, bg) {
+    		this.answer1 = a1;
+			this.Question = q;
+            this.answer2 = a2;
+            this.answer3 = a3;
+  			this.answer4 = a4;
+			this.nextNr1 = nNr1;
+			this.nextNr2 = nNr2;
+			this.nextNr3 = nNr3;
+			this.nextNr4 = nNr4;
+			this.points1 = p1;
+			this.points2 = p2;
+			this.points3 = p3;
+			this.points4 = p4;
+			this.image = image;
+			this.audioURL = aurl;
+			this.type = tp;
+			this.bgImage = bg;
+    	}
+    	
+    }
+    class character{
+		image
+		description
+		constructor(img, desc) {
+			this.description = desc;
+			this.image = img;
+		}
+    }
+    let dummyQ = new question("dummy", "dummy", "dummy", "dummy", 1,1,1,1); 
+    let questionList = [dummyQ];
+        
+        @foreach (var questions in Model.QuestionList)
+        	{
+		        @:questionList.push(new question("@questions.Question", "@questions.Answer1", "@questions.Answer2", "@questions.Answer3", "@questions.Answer4", "@questions.Next1", "@questions.Next2", "@questions.Next3", "@questions.Next4", image = "@questions.Image", "@questions.Points1", "@questions.Points2", "@questions.Points3", "@questions.Points4", audioURL = "@questions.AudioURL", tp = "@questions.Type", bg = "@questions.Background"));
+        		
+        	}
+    
+    
+    let qText = "dummy"
+    
+    let path = [];
+    
+    //dummy value
+    let totalPoints = 500;
+    
+    let sumPoints = 0;
+   	function hideButtons()
+   	{
+   		/*
+   		document.getElementById("button4").style.visibility = "hidden";
+   		document.getElementById("button3").style.visibility = "hidden";
+   		document.getElementById("button2").style.visibility = "hidden";
+   		document.getElementById("button1").style.visibility = "hidden";	
+   		 */
+   		 document.getElementById("button2").removeAttribute("style");
+   		 document.getElementById("button3").removeAttribute("style");
+   		 document.getElementById("button4").removeAttribute("style");
+   		 $("#button1").hide();
+   		 $("#button2").hide();
+   		 $("#button3").hide();
+   		 $("#button4").hide();
+   		 
+   	}
+   	/*
+   	function showButtons()
+   	{	
+   		document.getElementById("button1").style.visibility = "visible";
+		document.getElementById("button2").style.visibility = "visible";
+		document.getElementById("button3").style.visibility = "visible";
+		document.getElementById("button4").style.visibility = "visible";
+   	}*/
+    function populateButtons(num){
+   		//hideButtons();
+    	//showButtons();
+		
+		
+       
+		
+		document.getElementById("button1").innerText = questionList[num].answer1;
+		document.getElementById("button1").setAttribute("onclick", "refresh(" + questionList[num].nextNr1.toString() + "," + questionList[num].points1.toString() + ")");
+    	document.getElementById("button2").innerText = questionList[num].answer2;
+    	document.getElementById("button2").setAttribute("onclick", "refresh(" + questionList[num].nextNr2.toString() + "," + questionList[num].points2.toString() +")");
+    	document.getElementById("button3").innerText = questionList[num].answer3;
+    	document.getElementById("button3").setAttribute("onclick", "refresh(" + questionList[num].nextNr3.toString() + "," + questionList[num].points3.toString() +")");
+    	document.getElementById("button4").innerText = questionList[num].answer4;
+    	document.getElementById("button4").setAttribute("onclick", "refresh(" + questionList[num].nextNr4.toString() + "," + questionList[num].points4.toString() +")");
+    	
+    	if (questionList[num].answer4 !==  ""){
+    		console.log("4 is not empty");
+    		$("#button4").show();
+    		document.getElementById("button4").style.display ="block";
+    	}
+    	if (questionList[num].answer3 !== ""){
+    		console.log("3 is not empty");
+			$("#button3").show();
+			document.getElementById("button3").style.display ="block";
+        }
+    	if (questionList[num].answer2 !== ""){
+    		console.log("2 is not empty");
+			$("#button2").show();  
+			document.getElementById("button2").style.display ="block";
+        }
+    	if (questionList[num].answer1 !== ""){
+    		console.log("1 is not empty");
+    		$("#button1").show();
+    	}
+    	document.getElementById("questionText").innerText = questionList[num].Question;
+    	var questionString = questionList[num].Question;
+    	
+    		var replacedText, replacePattern1, replacePattern2, replacePattern3;
+            
+                //URLs starting with http://, https://, or ftp://
+                replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@@#\/%?=~_|!:,.;]*[-A-Z0-9+&@@#\/%=~_|])/gim;
+                replacedText = questionString.replace(replacePattern1, '<a href="$1" target="_blank">Link</a>');
+            
+                //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+                replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+                replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">Link</a>');
+            
+                //Change email addresses to mailto:: links.
+                replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+                replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">Link</a>');
+            	
+                
+                
+                
+                document.getElementById("question").innerHTML = replacedText;
+    	}
+    	
+    	
+    	
+    	
+    /*	
+    function setBackground() {
+      document.getElementById("grid-66").style.background. = img.setAttribute("src", "/lib/assets/images/" + char.image);
+    }*/	
+    	
+    	
+    	
+    function refresh(num, pts){
+    	hideButtons();
+    	removeMultiChars();
+    	//generateBox(pts);
+    	//drawBoxes();
+    	addPoints(pts);
+    	document.getElementById("question").className = "question";
+    	let question = questionList[num];
+    	updateBackGround(question.bgImage);
+    	sumPoints += parseInt(pts);
+    	document.getElementById("sumpoints").innerText = sumPoints.toString();
+    	
+    	
+    	qText = question.Question;
+    	
+    	switch (question.type){
+    		case "Standard":
+    			document.getElementById("img1").removeAttribute("hidden");
+				document.getElementById("img1").setAttribute("src", "/lib/assets/images/" + question.image);
+				populateButtons(num);
+				break;
+			case "Character":
+				
+				let firstC = multipleChars(question.answer1.split("delim")[0], question.answer1.split("delim")[1]);
+                firstC.setAttribute("onclick", "refresh("+question.nextNr1+","+ question.points1+")");
+				if (question.answer2 !== "")
+				{
+					let secondC = multipleChars(question.answer2.split("delim")[0], question.answer2.split("delim")[1]);
+                    secondC.setAttribute("onclick", "refresh("+question.nextNr2+","+ question.points2+")");
+                }
+				if (question.answer3 !== "")
+				{
+					let thirdC = multipleChars(question.answer3.split("delim")[0], question.answer3.split("delim")[1]);
+                    thirdC.setAttribute("onclick", "refresh("+question.nextNr3+","+ question.points3+")");
+                }
+                if (question.answer4 !== "")
+                {
+                	let fourthC = multipleChars(question.answer4.split("delim")[0], question.answer4.split("delim")[1]);
+					fourthC.setAttribute("onclick", "refresh("+question.nextNr4+","+ question.points4+")");
+				}
+				break;
+            case "TextBox":
+            	populateButtons(num);
+				document.getElementById("img1").setAttribute("hidden", "true");
+				break;
+			case "Quiz":
+				populateButtons(num);
+				document.getElementById("img1").setAttribute("hidden", "true");
+				break;
+            case "LastQuestion":
+            	//populateButtons(num);
+            	//alert("LastQuestion")
+            	console.log("idk kev")
+				document.getElementById("img1").setAttribute("hidden", "true");
+				getEndCard();
+				
+				break;
+    	}
+    	
+    	/*
+    	if (question.type == "Standard"){
+    		document.getElementById("img1").removeAttribute("hidden");
+    		document.getElementById("img1").setAttribute("src", "/lib/assets/images/" + question.image);
+    		populateButtons(num)
+    	}else if(question.type == "Character"){
+    		hideButtons();
+    		let firstC = multipleChars(question.answer1.split("delim")[0], question.answer1.split("delim")[1]);
+    		firstC.setAttribute("onclick", "refresh("+question.nextNr1+","+ question.points1+")");
+    		if (question.answer2 !== "")
+    		{
+    			let secondC = multipleChars(question.answer2.split("delim")[0], question.answer2.split("delim")[1]);
+    			secondC.setAttribute("onclick", "refresh("+question.nextNr2+","+ question.points2+")");
+    		}
+    		if (question.answer3 !== "")
+    		{
+    			let thirdC = multipleChars(question.answer3.split("delim")[0], question.answer3.split("delim")[1]);
+    			thirdC.setAttribute("onclick", "refresh("+question.nextNr3+","+ question.points3+")");
+    		}
+    		if (question.answer4 !== "")
+    		{
+    			let fourthC = multipleChars(question.answer4.split("delim")[0], question.answer4.split("delim")[1]);
+    			fourthC.setAttribute("onclick", "refresh("+question.nextNr4+","+ question.points4+")");
+    		}
+    		
+    	}else if (question.type == "TextBox"){
+    		populateButtons(num);
+    		document.getElementById("img1").setAttribute("hidden", "true");
+    		document.getElementById("question").className = "questionCentered";
+    		
+    	}*/
+    	audioSource.src = "/lib/assets/Audio/" + question.audioURL;
+    	if (!muted){
+    		audio.load();
+    		audio.play();
+		}    	
+    }
+    function addToPath(question)
+    {
+    	path.add(question);
+    	
+    }
+    
+    
+    function getEndCard()
+    {
+    	//console.log("getting EndCard");
+    	$.post('/Home/GetEndCard', {points: points, id: '@Model.Id', version: @Model.Version}, function (data){
+        			$('#question').text(data);
+        			console.log(data);
+        		});
+    }
+  
+    function multipleChars(image, description){
+        	document.getElementById("img1").setAttribute("hidden","true");
+            let row = document.getElementById("rowOfChars");
+    		
+    		
+    			let col = document.createElement("div");
+    			col.className = "columnChars";
+    			let img = document.createElement("img");
+    			img.setAttribute("src", "/lib/assets/images/" + image);
+    			img.setAttribute("style", "width:100%");
+    			addMouseOverDescription(img, description)
+    			col.appendChild(img);
+    			row.appendChild(col);
+    			return img;
+    }
+    function addMouseOverDescription(element, description){
+    	element.addEventListener("mouseover", function (event){
+    		//code here
+    		document.getElementById("question").innerText = description;
+    		/*setTimeout(function (){
+    			document.getElementById("question").innerText = "Trykk på start for å fortsette"
+    		}, 500)*/
+    	}, false);
+    	element.addEventListener("mouseleave", function (event){
+    		document.getElementById("question").innerText = "Trykk på start for å fortsette";
+    	})
+    }
+    function removeIntro(){
+    	removeMultiChars();
+    	refresh(1,0);
+    	
+    }
+    function removeMultiChars(){
+    	document.getElementById("rowOfChars").innerHTML = "";
+        document.getElementById("img1").removeAttribute("hidden");
+    }
+    
+
+    
+    function doIntro(){
+    	//hide all except next
+
+    	$("#button2").hide();
+    	$("#button3").hide();
+    	$("#button4").hide();
+    	 
+    	//set up startbutton
+    	document.getElementById("button1").innerText = "Start!";
+    	document.getElementById("button1").setAttribute("onclick", "removeIntro()");
+    	@foreach (var character in Model.Characters)
+	    {
+		    @:multipleChars("@character.ImageUrl", "@character.Description")
+	    }
+	    
+   }
+   function updateBackGround(background)
+   {
+   	let folderName = "backgrounds";
+   	if (window.innerWidth < 900){
+   		folderName = "backgroundmobile"
+   	}
+   	let bg  = document.getElementById("background");
+   		switch (background){
+   			case "gang":
+   				$(".grid-66").css("background", "url(/lib/assets/images/" + folderName + "/gang.png)");
+   				return;
+   			case "kontor":
+               	$(".grid-66").css("background", "url(/lib/assets/images/" + folderName + "/kontor.png)");
+				return;
+			case "leilighet":
+   				$(".grid-66").css("background", "url(/lib/assets/images/" + folderName + "/leilighet.png)");
+   				return;
+   			case "rom":
+   				$(".grid-66").css("background", "url(/lib/assets/images/" + folderName + "/Hans_rom.png)");
+   				return;
+   				
+   		}
+   }
+   doIntro();
+    /*
+    class box{
+        xCoord;
+        yCoord;
+        height;
+        width;
+        text;
+        getCenter()
+        {
+            let centerY = this.height/2;
+            centerY+= this.yCoord;
+            let centerX = this.width/2;
+            centerX+=this.xCoord;
+            return [centerY,centerX];
+        }
+        constructor(txt, hi, wi, xc, yc){
+            this.text = txt;
+            this.height = hi;
+            this.width = wi;
+            this.xCoord = xc;
+            this.yCoord = yc;
+        }
+        print(){
+            alert(this.text);
+        }
+    
+    }
+    let pathForBar = [];
+    
+    
+    function generateBoxes()
+    {
+        let canvasHeight = c.height;
+        let canvasWidth = c.width;
+        let boxHeigth = canvasHeight/pathForBar.length;
+        let boxWidth = canvasWidth/pathForBar.length;
+        let currX=0;
+        let currY = 0;
+        let boxes = [];
+        if (boxHeigth > 200){
+        	boxHeigth =200;
+        }
+        if (boxWidth > 200){
+                	boxWidth =200;
+		}
+        if(canvasHeight > canvasWidth) {
+            for (let i = 0; i < pathForBar.length; i++) {
+                let newBox = new box(pathForBar[i],
+                    boxHeigth, canvasWidth,
+                    currX, currY);
+                currY += boxHeigth;
+                boxes[i] = newBox;
+            }
+        }else {
+            for (let i = 0; i < pathForBar.length; i++) {
+                let newBox = new box(pathForBar[i],
+                    canvasHeight, boxWidth,
+                    currX, currY);
+                currX += boxWidth;
+                boxes[i] = newBox;
+            }
+        }
+        return boxes;
+    }
+    
+    function drawBoxes()
+    {
+        let boxes = generateBoxes();
+        ctx.beginPath();
+        for (let i = 0; i < boxes.length; i++)
+        {
+            ctx.fillStyle = getColorForBox(boxes[i].text);
+    
+            ctx.fillRect(boxes[i].xCoord, boxes[i].yCoord, boxes[i].width, boxes[i].height);
+            ctx.stroke();
+            ctx.font = "30px VT323"
+            ctx.fillStyle = "black";
+            let forlogx = boxes[i].getCenter()[1] - ctx.measureText(boxes[i].text).width/2;
+            ctx.fillText(boxes[i].text,
+                forlogx,
+                boxes[i].getCenter()[0]);
+        }
+        for (let i = 0; i <boxes.length; i++)
+        {
+            ctx.strokeStyle = "black";
+            ctx.rect(boxes[i].xCoord, boxes[i].yCoord, boxes[i].width, boxes[i].height);
+            ctx.stroke();
+        }
+        ctx.closePath();
+    }
+    function generateBox(number)
+    {
+        pathForBar[pathForBar.length] = number;
+    }
+    
+    function clearTheWholeThing(){
+        ctx.clearRect(0,0, 200, 600);
+    }
+    function getColorForBox(number){
+        switch (number) {
+        	case 0:
+        		return "red";
+            case 1:
+                return "red";
+            case 2:
+                return "yellow";
+            case 3:
+                return "yellow";
+            case 4:
+                return "yellow";
+            case 5:
+                return "green";
+        }
+        return "green";
+    }*/
+    
+    
+    function draw(){
+		ctx.beginPath();
+		let canvasWidth = c.width;
+		let imageToDraw;
+		if(points/maxPoints < 0.25)
+		{
+			ctx.fillStyle = "red";
+			imageToDraw = sinnaHansen;
+		}
+		else if(points/maxPoints < 0.45)
+		{
+			ctx.fillStyle = "yellow";
+			imageToDraw =neutralHansen;
+		}
+		else
+		{
+			ctx.fillStyle = "green";
+			imageToDraw = happyHansen;
+		}
+            
+        ctx.clearRect(0,0, canvasWidth, c.height);
+        let barWidth = canvasWidth * (points/maxPoints);
+        let barHeight = c.height/2;
+        let picSize = barHeight*1.2;
+        ctx.fillRect(0,barHeight,barWidth, 10);
+        ctx.drawImage(imageToDraw, barWidth-(barHeight/2),barHeight - barHeight*0.4 , picSize,picSize)
+        ctx.stroke();
+        ctx.closePath();
+    }
+    function addPoints(pnts)
+        {
+            if((points + pnts) > maxPoints){
+            points = maxPoints;
+            }else if ((points + pnts) <= 0)
+            {
+            	points = 0;	
+            }else{
+            points += pnts;
+            }
+            //document.getElementById("number").innerText = points.toString();
+            draw();
+        }
+       
+    function toggleMute(){
+    	if (muted){
+    		muted = false;
+    		audio.load();
+    		audio.play(); 
+    		document.getElementById("muteBtn").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up" viewBox="0 0 16 16"> <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/> <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/> <path d="M10.025 8a4.486 4.486 0 0 1-1.318 3.182L8 10.475A3.489 3.489 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.486 4.486 0 0 1 10.025 8zM7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12V4zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11z"/> </svg>'
+    	}else{
+    		muted = true;
+    		document.getElementById("muteBtn").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-mute" viewBox="0 0 16 16"> <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04 4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04zm7.854.606a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/> </svg>'
+    	}
+    	
+    }
+    draw();
+  </script>

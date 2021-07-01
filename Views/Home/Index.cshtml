@@ -1,0 +1,59 @@
+﻿@using System.Security.Cryptography
+@model Questions
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    @Html.Raw(@ViewBag.Html)
+    <a class="btn btn-success" asp-action="GameList">Kom I gang!</a>
+</div>
+
+
+<!--
+<button id="jQueryBtn">click me lul</button>
+<input id="number">
+<div id="content" ></div>
+-->
+<!--
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+
+    $(function()
+    {
+        
+        // Hook up the click handler
+        $('#jQueryBtn').on("click", function()
+        {
+            $.post('Home/GetQuestion', {id : document.getElementById("number").value }  , function (data){
+                $('#content').html(data);
+                
+                AddThingyToBtn('#button1', $('#cheeky1').val(), true);
+                AddThingyToBtn('#button2', $('#cheeky2').val(), true);
+                AddThingyToBtn('#button3', $('#cheeky3').val(), true);
+                AddThingyToBtn('#button4', $('#cheeky4').val(), true);
+                
+            });
+        });
+    });
+    
+    function AddThingyToBtn(button, nr){
+      
+        $(button).on("click", function()
+                {
+                    $.post('Home/GetQuestion', {id : nr }  , function (data){
+                        $('#content').html(data);
+                        
+                    });
+                });
+    }
+        
+    
+</script>
+-->
+
+
+
+
+

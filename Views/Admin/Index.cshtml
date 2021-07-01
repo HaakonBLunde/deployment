@@ -1,0 +1,97 @@
+﻿@model gamesViewModel
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Administratorsida</h2>
+
+<div id="deleteHolder"></div>
+<a class="btn btn-success" asp-action="CreateGame">Lag en ny modul</a>
+<a class="btn btn-success" asp-action="NewIndex">Oppdater forsida</a>
+
+<div class="wrapper">
+    <table class="table">
+        <thead >
+        <th>
+            <p>Modulnavn</p>
+        </th>
+        <th>
+            <p>Rediger Modul</p>
+        </th>
+        <th>
+            <p>Gjem Modul</p>
+        </th>
+        <th>
+            <p>Legg til lyd</p>
+        </th>        
+        <th>
+            <p>Sist endret</p>
+        </th>
+        <th>
+            <p>Versjon</p>
+            </th>
+        <th>
+            <p>Slett Modul</p>
+        </th>
+        <th>
+            <p>Forhåndsvis</p>
+        </th>
+        
+        </thead>
+        <tbody>
+        @foreach (var item in Model.GameModels)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    <a asp-action="EditGame" class="btn btn-primary style" asp-route-id="@item.Id" asp-route-version="@item.Version">Rediger</a>
+                </td>
+                @if (item.Visible)
+                {
+                    <td>
+                        <a asp-action="HideGame" class="btn btn-primary style" asp-route-id="@item.Id" asp-route-version="@item.Version">Gjem modul</a>
+                    </td>
+                }
+                @if (!item.Visible)
+                {
+                    <td>
+                        <a asp-action="ShowGame" class="btn btn-primary style" asp-route-id="@item.Id" asp-route-version="@item.Version">Vis modul</a>
+                    </td>
+                }
+                <td>
+                    <a asp-action="AudioList" class="btn btn-primary" asp-route-id="@item.Id" asp-route-version="@item.Version">Legg til lyd</a>
+                </td>
+                <td>
+                    <p>Sist endred @item.LastModified</p>
+                </td>
+                <td>
+                    <p>Versjon: @item.Version</p>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="addPostToBtn('@item.Id', '@item.Version')">Slett</button>
+                </td>
+                <td>
+                    <a asp-action="Preview" class="btn btn-primary" asp-route-id="@item.Id" asp-route-version="@item.Version">Forhåndsvis</a>
+                </td>
+                
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    function addPostToBtn(id, version)
+    {
+            $.post('Admin/GetDeleteGame', {id : id, version: version}  , function (data){
+                 $('#deleteHolder').html(data);
+                });
+        
+    }
+</script>

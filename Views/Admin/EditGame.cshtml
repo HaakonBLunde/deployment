@@ -1,0 +1,133 @@
+﻿@model submitModel
+@{
+    ViewData["Title"] = "Create new game";
+}
+
+
+
+
+<p id="firsindex" hidden>@ViewBag.StartIndex</p>
+<style>
+ .dropbtn {
+             background-color: #4CAF50;
+             color: white;
+             padding: 16px;
+             font-size: 16px;
+             border: none;
+             cursor: pointer;
+         }
+   
+         .dropdown {
+             position: relative;
+             display: inline-block;
+         }
+   
+         .dropdown-content {
+             display: none;
+             position: absolute;
+             background-color: #f9f9f9;
+             min-width: 160px;
+             box-shadow: 0px 8px 16px 
+                 0px rgba(0, 0, 0, 0.2);
+             z-index: 1;
+         }
+   
+         .dropdown-content a {
+             color: black;
+             padding: 12px 16px;
+             text-decoration: none;
+             display: block;
+         }
+   
+         .dropdown-content a:hover {
+             background-color: #f1f1f1
+         }
+   
+         .dropdown:hover .dropdown-content {
+             display: block;
+         }
+   
+         .dropdown:hover .dropbtn {
+             background-color: #ff3b3b;
+         }
+</style>
+<script type="text/javascript" src="/js/createScript.js"></script>
+ 
+
+
+<form id="form" style="width: 100%" method="post" asp-controller="Admin" asp-action="EditGame">
+    <div style="float: left; width: 40%">
+        <div class="form-group">
+            <a onClick="addForm()" class="btn btn-primary">Nytt spørsmål</a> 
+            <a onClick="removeForm()" class="btn btn-primary">Fjern spørsmål</a>
+            <input type="submit" value="Submit" class="btn btn-danger">
+        </div>
+        <div class="form-group">
+            <label for="gamename" class="col-form-label">Navn:</label>
+            <input asp-for="GameModel.Id" type="text" id="gamename" value="@Model.GameModel.Id" class="form-control" readonly>
+            <label for="displayname" class="col-form-label">Visningsnavn</label>
+            <input asp-for="GameModel.DisplayName" type="text" id="displayname" value="@Model.GameModel.DisplayName"class="form-control" required>
+            <label for="versionNumber">Versjon nummer:</label>
+            <input id="versionNumber"  readonly asp-for="GameModel.Version" type="text" class="form-control form-control-sm"  value="@Model.GameModel.Version">
+        </div>
+        <div class="form-group">
+            <label for="description" class="col-form-label">Beskrivelse:</label>
+            <textarea asp-for="GameModel.Description" type="text" id="description" class="form-control" required>@Model.GameModel.Description</textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="GameModel.Visible" class="col-form-label">Skal dette vises</label>
+            <input asp-for="GameModel.Visible" type="checkbox">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Tilbakemelding ved godt resultat</label>
+            <textarea type="text" class="form-control" asp-for="GameModel.GoodEnd">@Model.GameModel.GoodEnd</textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Tilbakemelding ved middels resultat</label>
+            <textarea type="text" class="form-control" asp-for="GameModel.MediumEnd">@Model.GameModel.MediumEnd</textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Tilbakemelding ved dårlig resultat</label>
+            <textarea type="text" class="form-control" asp-for="GameModel.BadEnd">@Model.GameModel.BadEnd</textarea>
+        </div>
+    </div>
+    <div id="questions" style="float: right; width: 50%">
+       
+    </div>
+    
+     @foreach (var question in @Model.QuestionList)
+            {
+                <script>
+                addFilled( nr = "@question.Nr", q = "@question.Question", a1 = "@question.Answer1", a1t = "@question.Next1", a1p = "@question.Points1", 
+                a2 = "@question.Answer2", a2t = "@question.Next2", a2p = "@question.Points2", a3 = "@question.Answer3", a3t = "@question.Next3",
+                a3p = "@question.Points3", a4 = "@question.Answer4", a4t = "@question.Next4", a4p = "@question.Points4", img = "@question.Image", type =  "@question.Type"
+                , audioURL = "@question.AudioURL", bgURL = "@question.Background")
+                
+                </script>
+            }
+</form>
+<script>
+function removeForm() {
+
+
+    let list = document.getElementById("questions");
+
+    list.removeChild(list.lastChild);
+    
+    if (count>=1){
+        count--;
+    }
+    /*if (count>=1){
+
+
+        
+
+        //form.removeChild(form.lastChild)
+        // list.removeChild(list.lastChild)
+        count-=1;
+    }**/
+}
+</script>
+
+
+

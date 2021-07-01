@@ -1,0 +1,91 @@
+﻿@model Questions
+
+
+<script>
+    //dummy value
+    let totalPoints = 500;
+    
+    let sumPoints = 0;
+   
+    function populateButtons(){
+    	document.getElementById("button1").removeAttribute("hidden");
+    	document.getElementById("button2").removeAttribute("hidden");
+		document.getElementById("button3").removeAttribute("hidden");
+		document.getElementById("button4").removeAttribute("hidden");
+		
+		document.getElementById("button1").innerText = @Model.Answer1;
+		document.getElementById("button1").setAttribute("onclick", "refresh(" + @Model.Next1 + "," + @Model.Points1 + ")");
+    	document.getElementById("button2").innerText = @Model.Answer2;
+    	document.getElementById("button2").setAttribute("onclick", "refresh(" + @Model.Next2 + "," + @Model.Points2 +")");
+    	document.getElementById("button3").innerText = @Model.Answer3;
+    	document.getElementById("button3").setAttribute("onclick", "refresh(" + @Model.Next3 + "," + @Model.Points3 +")");
+    	document.getElementById("button4").innerText = @Model.Answer1;
+    	document.getElementById("button4").setAttribute("onclick", "refresh(" + @Model.Next4 + "," +  @Model.Points4 +")");
+    	
+    	if (@Model.Answer2 === ""){
+    		document.getElementById("button2").setAttribute("hidden", "true");
+    		document.getElementById("button3").setAttribute("hidden", "true");
+    		document.getElementById("button4").setAttribute("hidden", "true");
+    		}
+    	if (@Model.Answer3 === ""){
+            		document.getElementById("button3").setAttribute("hidden", "true");
+            		document.getElementById("button4").setAttribute("hidden", "true");
+            		}
+    	if (@Model.Answer4 === ""){
+            		document.getElementById("button4").setAttribute("hidden", "true");
+            		}
+    	document.getElementById("questionText").innerText = @ViewBag.Question;
+    	let questionString = @ViewBag.Question;
+    	
+    	/*
+    		//gjør om ting som starter på "www" til linker automatisk
+    		var replacedText, replacePattern;
+    	   
+    	 	replacePattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+            replacedText = questionString.replace(replacePattern, '$1<a href="http://$2" target="_blank">$2</a>');
+    		document.getElementById("question").innerHTML = replacedText;
+    		
+    		*/
+    		let replacedText, replacePattern1, replacePattern2, replacePattern3;
+            
+                //URLs starting with http://, https://, or ftp://
+                replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@@#\/%?=~_|!:,.;]*[-A-Z0-9+&@@#\/%=~_|])/gim;
+                replacedText = questionString.replace(replacePattern1, '<a href="$1" target="_blank">Link</a>');
+            
+                //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+                replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+                replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">Link</a>');
+            
+                //Change email addresses to mailto:: links.
+                replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+                replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">Link</a>');
+            	
+                
+                
+                
+                document.getElementById("question").innerHTML = replacedText;
+    	}
+    	
+    	
+    	
+    	
+    /*	
+    function setBackground() {
+      document.getElementById("grid-66").style.background. = img.setAttribute("src", "/lib/assets/images/" + char.image);
+    }*/	
+    	
+    	
+    	
+    function refresh(pts){
+    	let question = @Model.Question
+    	sumPoints += parseInt(pts);
+    	document.getElementById("sumpoints").innerText = sumPoints.toString();
+    	
+    	document.getElementById("progress").style.width = (sumPoints/totalPoints)*window.innerWidth/3 + "px";
+    	let qText = @Model.Question;
+    	
+    	populateButtons()
+    	document.getElementById("img1").setAttribute("src", "/lib/assets/images/" + @Model.Image);
+    }
+
+  </script>

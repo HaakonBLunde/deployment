@@ -1,0 +1,17 @@
+﻿@model Questions
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1 style="color: red">@ViewBag.ErrorMessage</h1>
+
+<h1>@ViewBag.qText</h1>
+<h1>I spill @ViewBag.GameName</h1>
+<form class="form-group" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input readonly hidden type="text" name="id" value="@ViewBag.Id">
+    <input  hidden type="text" name="gameName" value="@ViewBag.GameName">
+    <input type="submit" value="Last opp">
+</form>

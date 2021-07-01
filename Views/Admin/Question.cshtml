@@ -1,0 +1,24 @@
+﻿@model viewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+@foreach (var Item in Model.QuestionList)
+{
+    <div class="form-group">
+    @Html.Label("Nr", "qNr: ")
+    @Html.DisplayFor(model => Item.Nr)
+    @Html.Label("FirstQIndex", "qtext: ")
+    @Html.DisplayFor(model => Item.Question )
+    @Html.Label("GameModel","ingame:")
+    @Html.DisplayFor(model => Item.GameModel.Id)
+    @Html.Label("AudioURL","lydfil:")
+    @Html.DisplayFor(model => Item.AudioURL)
+    @Html.Label("Id","ID:")
+    @Html.DisplayFor(model => Item.Id)
+    </div>
+}

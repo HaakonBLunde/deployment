@@ -1,0 +1,41 @@
+﻿@model FileModel
+@{
+    ViewData["Title"] = "Last opp";
+}
+
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label>Legg inn files and shit</label>
+        </dt>
+        <dd>
+            <input  type="file" name="file">
+            <span ></span>
+        </dd>
+    </dl>
+    <input class="btn btn-success" type="submit" value="upload">
+    <select name="choice">
+        <option value="Karakter">Karakter</option>
+        <option value="Bakgrunn">Bakgrunn</option>
+        <option value="Lyd">Lyd</option>
+    </select>
+</form>
+<div class="container">
+    <div class="row">
+    @if (Model.FilePaths.Count > 0)
+    {
+        var i = 0;
+        foreach (var filePath in Model.FilePaths)
+        {
+            if (i % 3 == 0)
+            {
+                <div class="w-100"></div>
+            }
+            <div class="col">
+                <img src="@filePath" class="img-thumbnail" style="width: 150px; height: 150px">
+            </div>
+            i++;
+        }
+    }
+    </div>
+</div>

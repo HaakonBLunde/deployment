@@ -1,0 +1,34 @@
+﻿@model gamesViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Oppgave";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+    
+</head>
+
+<body>
+<h1 style="color: red">@ViewBag.HiddenString</h1>
+<div class="row">
+@foreach (var Item in Model.GameModels)
+{
+    <div class="col-md-4">
+        @Html.Label("Id", "Oppgavenavn")
+        @Html.DisplayFor(model => Item.DisplayName)
+        <br/>
+        @Html.DisplayFor(model => Item.Description)
+        <br/>
+        <a class="btn btn-success" asp-action="Game" asp-route-id="@Item.Id" asp-route-version="@Item.Version">Start game</a>
+    </div>
+}
+</div>
+<div>
+
+</div>
+</body>
+</html>
